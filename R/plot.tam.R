@@ -105,7 +105,9 @@ plot.tam <- function(x, items=1:x$nitems, type="expected" ,
     }
     wleSorted <- sort(wle, na.last=FALSE)
     ncases <- length(wleSorted)
-    groupnumber <- round(seq(1:ncases) / (ncases/ngroups) + 0.5)
+    # sometimes this returns one more group than requested
+    groupnumber <- round(seq(1:ncases) / (ncases/ngroups) + 0.5)  
+    groupnumber[groupnumber > ngroups] = ngroups # prevents it
     
     aggr <- aggregate(wleSorted, list(groupnumber), mean)
     theta2 <- aggr$x
