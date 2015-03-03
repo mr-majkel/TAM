@@ -114,9 +114,11 @@ plot.tam <- function(x, items=1:x$nitems, type="expected" ,
     d1 <- d[order(wle),]
     d2 <- d1[-1]
     obScore <- lapply(d2, function(item) {
-      item = item[complete.cases(item)]
+      comp_case = complete.cases(item)
+      item = item[comp_case]
       uniq_cats = sort(unique(item))
-      plyr::ldply(split(item, groupnumber), .id = "group",  function (group) {
+      plyr::ldply(split(item, groupnumber[comp_case]), .id = "group", 
+                  function (group) {
         ngroup = length(group)
         cat_freq = list()
         for (catt in uniq_cats) {
